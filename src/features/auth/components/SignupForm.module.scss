@@ -1,0 +1,51 @@
+@use 'sass:color';
+@use '@/shared/styles/variables' as *;
+@use '@/shared/styles/mixins' as *;
+
+.form {
+  @include flex-column;
+  gap: $spacing-md;
+}
+
+.inputGroup {
+  @include flex-column;
+  gap: $spacing-sm;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  input {
+    @include input-base;
+  }
+}
+
+.error {
+  padding: $spacing-sm $spacing-md;
+  background-color: color.adjust($danger-color, $lightness: 40%);
+  border: 1px solid $danger-color;
+  border-radius: $border-radius-sm;
+  color: $danger-color;
+  font-size: $font-size-sm;
+  text-align: center;
+}
+
+.submitButton {
+  @include button-base;
+  width: 100%;
+  background-color: $primary-color;
+  color: white;
+  padding: $spacing-md;
+  font-size: $font-size-base;
+  margin-top: $spacing-sm;
+
+  &:hover:not(:disabled) {
+    background-color: color.adjust($primary-color, $lightness: -10%);
+  }
+
+  &:disabled {
+    background-color: color.adjust($primary-color, $lightness: 20%);
+  }
+}
