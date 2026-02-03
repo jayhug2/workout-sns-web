@@ -5,6 +5,7 @@ import type { SubmitEvent } from 'react';
 import { useSignupMutation } from '../authApi';
 import type { SignupRequest } from '../types/auth.types';
 import styles from './SignupForm.module.scss';
+import {validatePassword} from "@/shared/utils/validation.ts";
 
 export const SignupForm = () => {
     const [formData, setFormData] = useState<SignupRequest>({
@@ -13,12 +14,31 @@ export const SignupForm = () => {
         nickname: '',
     });
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const [signup, { isLoading, error }] = useSignupMutation();
     const navigate = useNavigate();
 
+    const handlePasswordChange = (value: string) => {
+        setFormData({ ...formData, password: value });
+
+        if (value) {
+            const validation = validatePassword(value);
+            setPasswordError(validation.isValid ? '' : validation.message);
+        } else {
+            setPasswordError('');
+        }
+    };
+
     const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const passwordValidation = validatePassword(formData.password);
+        if (!passwordValidation.isValid) {
+            setPasswordError(passwordValidation.message);
+            return;
+        }
+
 
         // 비밀번호 확인 검증
         if (formData.password !== passwordConfirm) {
@@ -26,11 +46,6 @@ export const SignupForm = () => {
             return;
         }
 
-        // 비밀번호 길이 검증 (백엔드와 동일)
-        if (formData.password.length < 8) {
-            alert('비밀번호는 최소 8자 이상이어야 합니다.');
-            return;
-        }
 
         // 닉네임 길이 검증 (백엔드와 동일)
         if (formData.nickname.length < 2 || formData.nickname.length > 20) {
@@ -80,12 +95,14 @@ export const SignupForm = () => {
                 <input
                     id="password"
                     type="password"
-                    placeholder="비밀번호를 입력하세요 (최소 8자)"
+                    placeholder="영문, 숫자, 특수문자 포함 8자 이상"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) => handlePasswordChange(e.target.value)}  // ← 이거!
                     required
-                    minLength={8}
                 />
+                {passwordError && (
+                    <span className={styles.fieldError}>{passwordError}</span>
+                )}
             </div>
 
             <div className={styles.inputGroup}>

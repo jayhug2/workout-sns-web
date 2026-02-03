@@ -49,3 +49,10 @@
     background-color: color.adjust($primary-color, $lightness: 20%);
   }
 }
+
+.fieldError {
+  color: $danger-color;
+  font-size: $font-size-sm;
+  margin-top: $spacing-xs;
+  display: block;
+}
