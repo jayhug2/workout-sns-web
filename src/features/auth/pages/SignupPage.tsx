@@ -11,7 +11,7 @@ export const SignupPage = () => {
                 <SignupForm />
                 <div className={styles.footer}>
                     <span>이미 계정이 있으신가요?</span>
-                    <Link to="/login">로그인</Link>
+                    <Link to="/signin">로그인</Link>
                 </div>
             </div>
         </div>

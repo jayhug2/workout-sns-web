@@ -56,7 +56,7 @@ export const SignupForm = () => {
         try {
             await signup(formData).unwrap();
             alert('회원가입 성공! 로그인 페이지로 이동합니다.');
-            navigate('/login');
+            navigate('/signin');
         } catch (err) {
             console.error('회원가입 실패:', err);
         }

@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type {AuthState, LoginResponse} from './types/auth.types';
+import type {AuthState, SignInResponse} from './types/auth.types';
 
 const initialState: AuthState = {
     user: null,
-    token: localStorage.getItem('token'),
+    accessToken: localStorage.getItem('accessToken'),
     isAuthenticated: false,
 };
 
@@ -12,21 +12,21 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setCredentials: (state, action: PayloadAction<LoginResponse>) => {
+        setCredentials: (state, action: PayloadAction<SignInResponse>) => {
             state.user = {
                 id: action.payload.id,
                 email: action.payload.email,
                 nickname: action.payload.nickname,
             };
-            state.token = action.payload.token;
+            state.accessToken = action.payload.accessToken;
             state.isAuthenticated = true;
-            localStorage.setItem('token', action.payload.token);
+            localStorage.setItem('accessToken', action.payload.accessToken);
         },
         logout: (state) => {
             state.user = null;
-            state.token = null;
+            state.accessToken = null;
             state.isAuthenticated = false;
-            localStorage.removeItem('token');
+            localStorage.removeItem('accessToken');
         },
     },
 });
