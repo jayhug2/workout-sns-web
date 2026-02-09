@@ -1,11 +1,11 @@
 import { baseApi } from '@/store/baseApi';
-import type { LoginRequest, LoginResponse, SignupRequest, User } from './types/auth.types';
+import type { SignInRequest, SignInResponse, SignupRequest, User, RefreshResponse } from './types/auth.types';
 
 export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        login: builder.mutation<LoginResponse, LoginRequest>({
+        signin: builder.mutation<SignInResponse, SignInRequest>({
             query: (credentials) => ({
-                url: '/users/login',
+                url: '/auth/signin',
                 method: 'POST',
                 body: credentials,
             }),
@@ -13,12 +13,32 @@ export const authApi = baseApi.injectEndpoints({
 
         signup: builder.mutation<User, SignupRequest>({
             query: (userData) => ({
-                url: '/users/signup',
+                url: '/auth/signup',
                 method: 'POST',
                 body: userData,
             }),
         }),
+
+        refresh: builder.mutation<RefreshResponse, void>({
+            query: () => ({
+                url: '/auth/refresh',
+                method: 'POST',
+            })
+        }),
+
+        signout: builder.mutation<void, void>({
+            query: () => ({
+                url: '/auth/signout',
+                method: 'POST',
+            })
+        })
     }),
 });
 
-export const { useLoginMutation, useSignupMutation } = authApi;
+export const {
+    useSigninMutation,
+    useSignupMutation,
+    useRefreshMutation,
+    useSignoutMutation
+
+} = authApi;

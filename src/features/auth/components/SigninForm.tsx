@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import type { SubmitEvent } from "react";
-import { useLoginMutation } from '../authApi';
+import { useSigninMutation } from '../authApi';
 import { setCredentials } from '../authSlice';
 import { useAppDispatch } from '@/shared/hooks/reduxHooks';
-import type { LoginRequest } from '../types/auth.types';
-import styles from './LoginForm.module.scss';
+import type { SignInRequest } from '../types/auth.types';
+import styles from './SignInForm.module.scss';
 
-export const LoginForm = () => {
-    const [formData, setFormData] = useState<LoginRequest>({
+export const SigninForm = () => {
+    const [formData, setFormData] = useState<SignInRequest>({
         email: '',
         password: '',
     });
 
-    const [login, { isLoading, error }] = useLoginMutation();
+    const [signin, { isLoading, error }] = useSigninMutation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export const LoginForm = () => {
         e.preventDefault();
 
         try {
-            const result = await login(formData).unwrap();
+            const result = await signin(formData).unwrap();
             dispatch(setCredentials(result));
             navigate('/');
         } catch (err) {

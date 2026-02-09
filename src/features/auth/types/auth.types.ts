@@ -5,17 +5,17 @@ export interface User {
     createdAt?: string;
 }
 
-export interface LoginRequest {
+export interface SignInRequest {
     email: string;
     password: string;
 }
 
-export interface LoginResponse {
+export interface SignInResponse {
     id: number;
     email: string;
     nickname: string;
     message: string;
-    token: string;
+    accessToken: string;
 }
 
 export interface SignupRequest {
@@ -26,6 +26,10 @@ export interface SignupRequest {
 
 export interface AuthState {
     user: User | null;
-    token: string | null;
+    accessToken: string | null;
     isAuthenticated: boolean;
+}
+
+export interface RefreshResponse {
+    accessToken: string;
 }

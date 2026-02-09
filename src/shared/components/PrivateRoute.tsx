@@ -6,10 +6,10 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
-    const { token } = useAppSelector((state) => state.auth);
+    const { accessToken } = useAppSelector((state) => state.auth);  // ← token → accessToken
 
-    if (!token) {
-        return <Navigate to="/login" replace />;
+    if (!accessToken) {  // ← token → accessToken
+        return <Navigate to="/signin" replace />;
     }
 
     return <>{children}</>;
