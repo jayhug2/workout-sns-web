@@ -6,6 +6,7 @@
   @include flex-center;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: $spacing-md; // ← 추가: 모바일 여백
 }
 
 .signupBox {
@@ -15,6 +16,16 @@
   padding: $spacing-xxl;
   width: 100%;
   max-width: 400px;
+
+  // ← 추가: 모바일 대응
+  @media (max-width: 768px) {
+    padding: $spacing-xl $spacing-lg;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    padding: $spacing-lg $spacing-md;
+  }
 }
 
 .title {
@@ -23,12 +34,27 @@
   text-align: center;
   margin-bottom: $spacing-sm;
   color: $primary-color;
+
+  // ← 추가: 모바일 폰트 크기
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 24px;
+  }
 }
 
 .subtitle {
   text-align: center;
   color: $text-secondary;
   margin-bottom: $spacing-xl;
+
+  // ← 추가: 모바일 폰트 크기
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin-bottom: $spacing-lg;
+  }
 }
 
 .footer {
@@ -49,5 +75,11 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  // ← 추가: 모바일 간격 조정
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin-top: $spacing-md;
   }
 }
