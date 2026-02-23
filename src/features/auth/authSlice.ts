@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type {AuthState, SignInResponse} from './types/auth.types';
+import type {AuthState, SignInResponse, User} from './types/auth.types';
 
 const initialState: AuthState = {
     user: null,
     accessToken: localStorage.getItem('accessToken'),
-    isAuthenticated: false,
+    isAuthenticated: !!localStorage.getItem('accessToken'),
 };
 
 const authSlice = createSlice({
@@ -22,6 +22,9 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             localStorage.setItem('accessToken', action.payload.accessToken);
         },
+        setUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+        },
         logout: (state) => {
             state.user = null;
             state.accessToken = null;
@@ -31,5 +34,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, setUser, logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,23 +1,34 @@
+import { useState } from 'react';
 import { useAppSelector } from '@/shared/hooks/reduxHooks';
+import { PostList } from '@/features/post/components/PostList/PostList';
+import { PostCreateForm } from '@/features/post/components/PostCreateForm/PostCreateForm';
 import styles from './HomePage.module.scss';
 
 export const HomePage = () => {
     const { user } = useAppSelector((state) => state.auth);
-
-    console.log('유저', user)
+    const [showCreateForm, setShowCreateForm] = useState(false);
 
     return (
         <div className={styles.container}>
-            <div className={styles.welcome}>
+            <div className={styles.header}>
                 <h1>안녕하세요, {user?.nickname}님! 👋</h1>
-                <p>Workout SNS에 오신 것을 환영합니다.</p>
+                <button
+                    onClick={() => setShowCreateForm(!showCreateForm)}
+                    className={styles.createButton}
+                >
+                    {showCreateForm ? '취소' : '게시글 작성'}
+                </button>
             </div>
 
-            <div className={styles.content}>
-                <div className={styles.section}>
-                    <h2>최근 게시글</h2>
-                    <p className={styles.placeholder}>게시글 기능은 곧 추가될 예정입니다.</p>
+            {showCreateForm && (
+                <div className={styles.createFormSection}>
+                    <h2>새 게시글 작성</h2>
+                    <PostCreateForm onSuccess={() => setShowCreateForm(false)} />
                 </div>
+            )}
+
+            <div className={styles.content}>
+                <PostList />
             </div>
         </div>
     );
