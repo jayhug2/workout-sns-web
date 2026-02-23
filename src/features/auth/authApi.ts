@@ -31,7 +31,12 @@ export const authApi = baseApi.injectEndpoints({
                 url: '/auth/signout',
                 method: 'POST',
             })
-        })
+        }),
+
+        getMe: builder.query<User, void>({
+            query: () => '/users/me',
+            providesTags: ['User'],
+        }),
     }),
 });
 
@@ -39,6 +44,6 @@ export const {
     useSigninMutation,
     useSignupMutation,
     useRefreshMutation,
-    useSignoutMutation
-
+    useSignoutMutation,
+    useGetMeQuery,
 } = authApi;

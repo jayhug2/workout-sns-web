@@ -4,7 +4,7 @@ import type { RootState } from './index';
 import { setCredentials, logout } from '@/features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
+    baseUrl: `${import.meta.env.VITE_API_BASE_URL}/api`,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const accessToken = (getState() as RootState).auth?.accessToken;
@@ -19,11 +19,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     let result = await baseQuery(args, api, extraOptions);
 
     if (result.error && result.error.status === 401) {
-        const refreshResult = await baseQuery(
-            '/auth/refresh',
-            api,
-            extraOptions
-        );
+        const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
 
         if (refreshResult.data) {
             const { accessToken } = refreshResult.data as { accessToken: string };
