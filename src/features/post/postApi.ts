@@ -41,12 +41,11 @@ export const postApi = baseApi.injectEndpoints({
         updatePost: builder.mutation<PostResponse, { id: number; data: PostCreateRequest }>({
             query: ({ id, data }) => ({
                 url: `/posts/${id}`,
-                method: 'PUT',
+                method: 'PATCH',
                 body: data,
             }),
-            invalidatesTags: (_result, _error, { id }) => [{ type: 'Post', id }, 'Post'],  // ← 수정
+            invalidatesTags: (_result, _error, { id }) => [{ type: 'Post', id }, 'Post'],
         }),
-
         // 게시글 삭제
         deletePost: builder.mutation<void, number>({
             query: (id) => ({
